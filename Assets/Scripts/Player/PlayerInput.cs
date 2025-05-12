@@ -1,0 +1,68 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace Player
+{
+    public class PlayerInput : MonoBehaviour
+    {
+        [SerializeField] private InputActionAsset playerControls;
+        [SerializeField] private PlayerMovement playerMovement; 
+            
+        private InputAction _moveAction;
+        private Vector2 _moveInput;
+
+        private InputAction _lookAction;
+        private Vector2 _lookInput;
+
+        private InputAction _jumpAction;
+        private bool _jumpInput;
+
+        private InputAction _sprintAction;
+        private bool _sprintInput;
+
+        private void Update()
+        {
+            playerMovement.HandleMovement(_moveInput, _jumpInput, _sprintInput);
+            playerMovement.HandleRotation(_lookInput);
+        }
+
+        private void Awake()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            _moveAction = playerControls.FindActionMap("Player").FindAction("Move");
+            _moveAction.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
+            _moveAction.canceled += _ => _moveInput = Vector2.zero;
+
+            _lookAction = playerControls.FindActionMap("Player").FindAction("Look");
+            _lookAction.performed += ctx => _lookInput = ctx.ReadValue<Vector2>();
+            _lookAction.canceled += _ => _lookInput = Vector2.zero;
+
+            _jumpAction = playerControls.FindActionMap("Player").FindAction("Jump");
+            _jumpAction.performed += _ => _jumpInput = true;
+            _jumpAction.canceled += _ => _jumpInput = false;
+
+            _sprintAction = playerControls.FindActionMap("Player").FindAction("Sprint");
+            _sprintAction.performed += _ => _sprintInput = true;
+            _sprintAction.canceled += _ => _sprintInput = false;
+
+        }
+
+        private void OnEnable()
+        {
+            _moveAction.Enable();
+            _lookAction.Enable();
+            _jumpAction.Enable();
+            _sprintAction.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _moveAction.Disable();
+            _lookAction.Disable();
+            _jumpAction.Disable();
+            _sprintAction.Disable();
+        }
+    }
+}
