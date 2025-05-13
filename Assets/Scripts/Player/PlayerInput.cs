@@ -30,7 +30,6 @@ namespace Player
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
             _moveAction = playerControls.FindActionMap("Player").FindAction("Move");
             _moveAction.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
             _moveAction.canceled += _ => _moveInput = Vector2.zero;
