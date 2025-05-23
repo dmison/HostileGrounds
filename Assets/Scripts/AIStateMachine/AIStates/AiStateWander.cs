@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace AIStateMachine.AIStates
@@ -8,12 +8,7 @@ namespace AIStateMachine.AIStates
     public class AiStateWander : MonoBehaviour, IState
     {
         public float range = 100.0f; //radius of sphere
-        private NavMeshAgent _navMeshAgent;
-
-        private void Start()
-        {
-            _navMeshAgent = GetComponentInParent<NavMeshAgent>();
-        }
+        [SerializeField] private NavMeshAgent navMeshAgent;
 
         public StateId GetId()
         {
@@ -22,24 +17,24 @@ namespace AIStateMachine.AIStates
 
         public void StateEnter(AiAgent agent)
         {
-            _navMeshAgent.ResetPath();
+            navMeshAgent.ResetPath();
         }
 
         public void StateUpdate(AiAgent agent)
         {
-            if (!(_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)) return; //done with path
+            if (!(navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)) return; //done with path
             
             Vector3 point;
             if (RandomPoint(transform.position, range, out point)) //pass in our centre point and radius of area
             {
-                _navMeshAgent.SetDestination(point);
+                navMeshAgent.SetDestination(point);
             }
         }
 
         public void StateExit(AiAgent agent)
         {
             
-            _navMeshAgent.ResetPath();
+            navMeshAgent.ResetPath();
         }
         
         private bool RandomPoint(Vector3 center, float distance, out Vector3 result)

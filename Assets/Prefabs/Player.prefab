@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5940554518355986431}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.387, y: -0.47700012, z: 0.71599996}
+  m_LocalPosition: {x: 0.48, y: -0.47700012, z: 0.71599996}
   m_LocalScale: {x: 0.15147, y: 0.15147, z: 0.15147}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 6001981196092447468}
   - component: {fileID: 8871232675056856113}
   - component: {fileID: 8358622225703234783}
-  - component: {fileID: 1541531344421950019}
   - component: {fileID: 9101962556983216954}
   - component: {fileID: 8607310333412292176}
   - component: {fileID: 2651691794650360964}
@@ -276,20 +275,6 @@ MonoBehaviour:
   mouseYSensitivity: 1
   invertLook: 1
   fpsCamera: {fileID: 2752640752383881810}
---- !u!136 &1541531344421950019
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8881593161593217172}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &9101962556983216954
 CharacterController:
   m_ObjectHideFlags: 0

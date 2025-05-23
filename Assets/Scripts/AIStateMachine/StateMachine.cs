@@ -17,7 +17,6 @@ namespace AIStateMachine
             {
                 if (stateTransition.transitionFrom == _currentState && stateTransition.Evaluate())
                 {
-                    Debug.Log(stateTransition.transitionFrom +" : "+ stateTransition.transitionTo);
                     ChangeState(stateTransition.transitionTo);
                     return;
                 }

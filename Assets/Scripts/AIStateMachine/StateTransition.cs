@@ -15,7 +15,6 @@ namespace AIStateMachine
         public bool Evaluate()
         {
             bool result = predicate.Evaluate();
-            
             return not ? !result : result;
         }
         
