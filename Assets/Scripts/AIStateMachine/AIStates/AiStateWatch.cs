@@ -7,7 +7,7 @@ namespace AIStateMachine.AIStates
 {
     public class AiStateWatch : MonoBehaviour, IState
     {
-        [SerializeField] private NavMeshAgent navMeshAgent;
+        // [SerializeField] private NavMeshAgent navMeshAgent;
         [SerializeField] private GameObject body;
         private VisionSensor _visionSensor;
         [SerializeField] private float turnSpeed = 3.0f;
@@ -24,7 +24,7 @@ namespace AIStateMachine.AIStates
 
         public void StateEnter(AiAgent agent)
         {
-            navMeshAgent.ResetPath();
+            // navMeshAgent.ResetPath();
         }
 
         public void StateUpdate(AiAgent agent)
