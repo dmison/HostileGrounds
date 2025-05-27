@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Weapons;
 
 namespace Player
 {
@@ -7,7 +8,8 @@ namespace Player
     {
         [SerializeField] private InputActionAsset playerControls;
         [SerializeField] private PlayerMovement playerMovement; 
-            
+        [SerializeField] private WeaponsManager weaponsManager;
+        
         private InputAction _moveAction;
         private Vector2 _moveInput;
 

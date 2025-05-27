@@ -98,7 +98,8 @@ GameObject:
   - component: {fileID: 9101962556983216954}
   - component: {fileID: 8607310333412292176}
   - component: {fileID: 2651691794650360964}
-  m_Layer: 0
+  - component: {fileID: 5409505713039637058}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -256,6 +257,7 @@ MonoBehaviour:
   playerControls: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b,
     type: 3}
   playerMovement: {fileID: 8358622225703234783}
+  weaponsManager: {fileID: 5409505713039637058}
 --- !u!114 &8358622225703234783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,6 +346,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8881593161593217172}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &5409505713039637058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8881593161593217172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2857ccfdf77534bb99a22761d0c5a97c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMagazines:
+  - ammoType: 0
+    max: 5
+  - ammoType: 1
+    max: 2
+  - ammoType: 2
+    max: 2
 --- !u!1 &9172683251937069483
 GameObject:
   m_ObjectHideFlags: 0
