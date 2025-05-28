@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 61194040}
   m_Layer: 0
   m_Name: Wall1 (3)
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -314,10 +314,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3310715808530910647, guid: 605c7cf24d024407eb75c67a667770cd,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310715808530910647, guid: 605c7cf24d024407eb75c67a667770cd,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7486467110538781003, guid: 605c7cf24d024407eb75c67a667770cd,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618791302227133114, guid: 605c7cf24d024407eb75c67a667770cd,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618791302227133114, guid: 605c7cf24d024407eb75c67a667770cd,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618791302227133114, guid: 605c7cf24d024407eb75c67a667770cd,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8881593161593217172, guid: 605c7cf24d024407eb75c67a667770cd,
         type: 3}
@@ -347,7 +372,7 @@ GameObject:
   - component: {fileID: 168414801}
   m_Layer: 0
   m_Name: Wall1 (2)
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -538,7 +563,7 @@ GameObject:
   - component: {fileID: 664587001}
   m_Layer: 0
   m_Name: Wall1 (1)
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -732,11 +757,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1983766221e490d4ebf698105a0fdef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 2050768965}
+  isShooting: 0
+  readyToShoot: 0
+  shootingDelay: 2
+  bulletsPerBurst: 3
+  currentBurstBullets: 0
+  spreadIntensity: 0
   bulletPrefab: {fileID: 2419766853954727723, guid: c50824ef33e7d64409fe878948bcc4de,
     type: 3}
   bulletSpawn: {fileID: 50952461}
   bulletVelocity: 30
   bulletPrefabLifeTime: 3
+  currentShootingMode: 2
 --- !u!4 &814741070 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6139346753700540242, guid: 605c7cf24d024407eb75c67a667770cd,
@@ -757,7 +790,7 @@ GameObject:
   - component: {fileID: 1530016385}
   m_Layer: 0
   m_Name: Wall1
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -854,7 +887,7 @@ GameObject:
   - component: {fileID: 1835708015}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -937,3 +970,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &2050768965 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2752640752383881810, guid: 605c7cf24d024407eb75c67a667770cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 68511893}
+  m_PrefabAsset: {fileID: 0}
