@@ -32,8 +32,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private int magazineSizeLimit = 10;
 
-    // Start is called before the first frame update
-    void Start()
+    // Awake is called before the first frame update and start
+    void Awake()
     {
         // Ensure that only one UIManager exists
         if (instance != null)
