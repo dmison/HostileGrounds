@@ -15,6 +15,14 @@ namespace Weapons
         // magazines carried
         private Dictionary<WeaponType, Magazine> _magazines = new Dictionary<WeaponType, Magazine>();
 
+        // Throwables
+        public int grenades = 0;
+        public float throwForce = 10f;
+        public GameObject grenadePrefab;
+        public GameObject throwableSpawn;
+        public float forceMultiplier = 0;
+        public float forceMultiplierLimit = 4f;
+
         public void Shoot()
         {
             Debug.Log("shoot");
@@ -32,7 +40,39 @@ namespace Weapons
 
         public void Throw()
         {
-            Debug.Log("throw");
+            // Force of the throw
+            if (Input.GetKey(KeyCode.G))
+            {
+                forceMultiplier += Time.deltaTime;
+                if (forceMultiplier > forceMultiplierLimit)
+                {
+                    // Puts a limit on how much force can be used
+                    forceMultiplier = forceMultiplierLimit;
+                }
+            }
+            // Throws grenade when G key is held down
+            if (Input.GetKeyUp(KeyCode.G))
+            {
+                if (grenades > 0)
+                {
+                    ThrowGrenade();
+                    Debug.Log("Throw Grenade");
+                }
+
+                forceMultiplier = 0;
+            }
+          
+        }
+
+        public void ThrowGrenade()
+        {
+            // Throw Physics
+            GameObject throwable = Instantiate(grenadePrefab, throwableSpawn.transform.position, Camera.main.transform.rotation);
+            Rigidbody rb = throwable.GetComponent<Rigidbody>();
+
+            rb.AddForce(Camera.main.transform.forward * (throwForce * forceMultiplier), ForceMode.Impulse);
+
+            throwable.GetComponent<ThrowableGrenade>().hasBeenThrown = true;
         }
 
         public bool Pickup(PickupSo pickupSo)
