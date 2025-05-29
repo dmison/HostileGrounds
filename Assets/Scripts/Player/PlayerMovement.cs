@@ -33,12 +33,15 @@ namespace Player
 
         public void HandleRotation(Vector2 lookInput)
         {
+            if (PausedMenuScreen.gameIsPaused)
+                return;
             var rotation = lookInput.x * mouseXSensitivity;
             transform.Rotate(0, rotation,0);
             
             var verticalLookDelta = (invertLook ? 1:-1) * lookInput.y * mouseYSensitivity;
             _verticalLook = Mathf.Clamp(_verticalLook + verticalLookDelta, -80f, 80f);
             fpsCamera.transform.localRotation = Quaternion.Euler(_verticalLook, 0, 0);
+            
         }
         
         public void HandleMovement(Vector3 moveInput, bool jumpInput, bool sprintInput)
