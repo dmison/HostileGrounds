@@ -12,7 +12,7 @@ public class PausedMenuScreen : MonoBehaviour
     
     void Start()
     {
-        Resume();
+        pausedMenuUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -21,44 +21,24 @@ public class PausedMenuScreen : MonoBehaviour
         // When the player presses ESC on the keyboard
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // If the game is paused and showing the paused menu
-            if (gameIsPaused)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
+            TogglePause();
         }
     }
 
-    // To resume the game
-    public void Resume()
+    // Toggle between paused and not
+    public void TogglePause()
     {
-        // Set the menu to no longer be active or visible 
-        pausedMenuUI.SetActive(false);
-        // Resume game time
-        Time.timeScale = 1f;
-        // The game is no longer paused
-        gameIsPaused = false;
-        // Set the cursor to be invisible and locked to the resumed game
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    // To pause the game
-    void Pause()
-    {
-        // Set the menu to be active and visible
-        pausedMenuUI.SetActive(true);
-        // Pause game time
-        Time.timeScale = 0f;
-        // The game is paused
-        gameIsPaused = true;
-        // Set the cursor to be visible and unlock it for the UI interactions
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        // Flip the boolean value of gameIsPaused
+        gameIsPaused = !gameIsPaused;
+        Debug.Log("game is paused? " + gameIsPaused);
+        // Set the menu to be active and visible (if gameIsPaused = true) or unactive and invisible (if gameIsPaused = false)
+        pausedMenuUI.SetActive(gameIsPaused);
+        // Set the cursor to be visible (if gameIsPaused = true) or invosble (if gameIsPaused = false)
+        Cursor.visible = gameIsPaused;
+        // Set the cursor to be confined to the window (if gameIsPaused = true) or set the cursor to be locked to the game (if gameIsPaused = false)
+        Cursor.lockState = gameIsPaused ? CursorLockMode.Confined : CursorLockMode.Locked;
+        // Pause game time (if gameIsPaused = true) or resume the time (if gameIsPaused = true)
+        Time.timeScale = gameIsPaused ? 0f : 1f;
     }
 
     public void QuitGame()
