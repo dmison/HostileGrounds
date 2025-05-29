@@ -12,6 +12,7 @@ public class PausedMenuScreen : MonoBehaviour
     
     void Start()
     {
+        // Deactivate the pause menu at the start of the game
         pausedMenuUI.SetActive(false);
     }
 

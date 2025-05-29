@@ -28,13 +28,13 @@ public class PlayerHealth : MonoBehaviour, HealthManager
     /// <param name="healingAmount">The amount of health to gain, this value should be positive</param>
     public void Heal(int healingAmount)
     {
-        // increase the current health by the set healing amount
+        // Increase the current health by the set healing amount
         currentHealth += healingAmount;
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
         }
-        // update the player health bar in the UI
+        // Update the player health bar in the UI
         UIManager.instance.UpdatePlayerHealthSlider((float)currentHealth / (float)maxHealth);
     }
 

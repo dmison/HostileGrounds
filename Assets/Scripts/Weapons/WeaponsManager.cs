@@ -83,7 +83,8 @@ namespace Weapons
             {
                 case TypeOfPickup.Health:
                 {
-                    break;
+                     // Just an idea ... player.GetComponent<HealthManager>().Heal(healToRestore);
+                     break;
                 }
                 case TypeOfPickup.GrenadeAmmo:
                 case TypeOfPickup.PistolAmmo:
@@ -124,6 +125,8 @@ namespace Weapons
             Magazine magazine = _magazines[ammo.weaponType];
             magazine.Carried++;
             _magazines[ammo.weaponType] = magazine;
+
+            // Just an idea ... UIManager.instance.UpdateAmmoUI
 
             return true;
         }

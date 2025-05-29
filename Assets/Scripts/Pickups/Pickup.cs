@@ -28,7 +28,7 @@ namespace Pickups
             GameObject player = col.gameObject;
             bool pickedUp = HandlePlayerPickup(player);
             
-            // start respawn if pickup was successful
+            // Start respawn if pickup was successful
             if(pickedUp)StartRespawn();
         }
 

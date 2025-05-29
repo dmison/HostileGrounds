@@ -51,45 +51,52 @@ public class UIManager : MonoBehaviour
         sldPlayerHealth.value = percentage;
     }
 
+
+    /// <summary>
+    /// I dont think these are relevant anymore since these are in the WeaponsManager
+    /// </summary>
+ 
     // When the player reloads
-    public void Reload()
-    {
-        // Calculate how many bullets we be reloaded into the gun
-        int magazineSize = magazineSizeLimit - currentRound;
-        // If there are enough bullets in the magazine to fully reload
-        if (magazineAmount >= magazineSize)
-        {
-            // Decrease the magazineSize by the magazineAmount to reflect a reload
-            magazineAmount -= magazineSize;
-            // Increase the currentRound by the magazineSize as if changing magazines
-            currentRound += magazineSize;
-        }
-        else
-        {
-            // If there is not enough ammo in the magazine for a full reload
-            // Add the remaining amount in the magazine to the currentRound
-            currentRound += magazineAmount;
-            magazineAmount = 0;
-        }
-        Debug.Log("Reloaded");
-        UpdateAmmoUI();
-    }
+    // public void Reload()
+    // {
+    //     // Calculate how many bullets we be reloaded into the gun
+    //     int magazineSize = magazineSizeLimit - currentRound;
+    //     // If there are enough bullets in the magazine to fully reload
+    //     if (magazineAmount >= magazineSize)
+    //     {
+    //         // Decrease the magazineSize by the magazineAmount to reflect a reload
+    //         magazineAmount -= magazineSize;
+    //         // Increase the currentRound by the magazineSize as if changing magazines
+    //         currentRound += magazineSize;
+    //     }
+    //     else
+    //     {
+    //         // If there is not enough ammo in the magazine for a full reload
+    //         // Add the remaining amount in the magazine to the currentRound
+    //         currentRound += magazineAmount;
+    //         magazineAmount = 0;
+    //     }
+    //     Debug.Log("Reloaded");
+    //     UpdateAmmoUI();
+    // }
 
     // When the player shoots a bullet
-    public void RoundShot()
-    {
-        if (currentRound > 0)
-        {
-            // Minus the current round in the gun by 1 and update the UI
-            currentRound--;
-            UpdateAmmoUI();
-        }
-        else
-        {
-            // If there are no more bullets in the current round, reload the gun
-            Reload();
-        }
-    }
+    // public void RoundShot()
+    // {
+    //     if (currentRound > 0)
+    //     {
+    //         // Minus the current round in the gun by 1 and update the UI
+    //         currentRound--;
+    //         UpdateAmmoUI();
+    //     }
+    //     else
+    //     {
+    //         // If there are no more bullets in the current round, reload the gun
+    //         Reload();
+    //     }
+    // }
+
+
 
     // Update the UI to reflect the current ammo values
     private void UpdateAmmoUI()

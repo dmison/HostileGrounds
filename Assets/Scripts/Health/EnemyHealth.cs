@@ -20,10 +20,11 @@ public class EnemyHealth : MonoBehaviour, HealthManager
 
     void Start()
     {
-        // Set the current health to max health
+        // The enemy health bar is a child of the enemy
         enemySlider = GetComponentInChildren<EnemyHealthBar>();
         if (enemySlider != null)
         {
+            // Set the current health to the max health
             currentHealth = maxHealth;
             enemySlider.UpdateHealth(currentHealth, maxHealth);
         }
@@ -43,7 +44,7 @@ public class EnemyHealth : MonoBehaviour, HealthManager
         currentHealth -= damageAmount;
         // The health bar in the UI is updated
         enemySlider.UpdateHealth(currentHealth, maxHealth);
-        // If the object has no more health then it is destroyed
+        // If the enemy has no more health then it is destroyed
         if (currentHealth <= 0)
         {
             currentHealth = 0;
