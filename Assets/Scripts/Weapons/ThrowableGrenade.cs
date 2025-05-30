@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Health;
 using UnityEngine;
 
 public class ThrowableGrenade : MonoBehaviour
@@ -68,10 +69,10 @@ public class ThrowableGrenade : MonoBehaviour
             // If enemy is in range it takes damage
             if (objectInRange.gameObject.CompareTag("Enemy"))
             {
-                if (objectInRange.gameObject.GetComponent<HealthManager>() != null)
+                if (objectInRange.gameObject.GetComponent<IHealthManager>() != null)
                 {
                     // If HealthManager is attached then the game object will take damage based on the amount of damageToDeal
-                    objectInRange.gameObject.GetComponent<HealthManager>().TakeDamage(damageToDeal);
+                    objectInRange.gameObject.GetComponent<IHealthManager>().TakeDamage(damageToDeal);
                     Debug.Log("Dealt damage of " + damageToDeal);
                 }
                 else

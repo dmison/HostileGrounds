@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Health;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -12,10 +13,10 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            if (collision.gameObject.GetComponent<HealthManager>() != null)
+            if (collision.gameObject.GetComponent<IHealthManager>() != null)
             {
                 // If HealthManager is attached then the game object will take damage based on the amount of damageToDeal
-                collision.gameObject.GetComponent<HealthManager>().TakeDamage(damageToDeal);
+                collision.gameObject.GetComponent<IHealthManager>().TakeDamage(damageToDeal);
                 Debug.Log("Dealt damage of " + damageToDeal);
             }
             else
