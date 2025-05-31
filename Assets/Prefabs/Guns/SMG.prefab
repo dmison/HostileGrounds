@@ -46,9 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1983766221e490d4ebf698105a0fdef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponGunModel: {fileID: 7668689365389770570}
   isShooting: 0
   readyToShoot: 0
   shootingDelay: 2
+  roundsCapacity: 100
+  reloadTime: 2
   bulletsPerBurst: 3
   currentBurstBullets: 0
   spreadIntensity: 0

@@ -18,7 +18,7 @@ namespace Weapons
         private IEnumerator DestroyBullet (float delay)
         {
             yield return new WaitForSeconds(delay);
-            // Destroy(this);
+            Destroy(this);
         }
 
         private void OnCollisionEnter(Collision collision)

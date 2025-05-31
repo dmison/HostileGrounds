@@ -25,8 +25,8 @@ namespace Weapons
 
         // magazines carried
         private Dictionary<WeaponType, Magazine> _magazines = new Dictionary<WeaponType, Magazine>();
-
         [SerializeField] private Transform gunHolder;
+        
         // ====================================================================================================
         // Throwables
         public int grenades = 0;
@@ -57,7 +57,13 @@ namespace Weapons
         
         public void Shoot()
         {
+            if (weaponGameObjects[currentWeapon].GetComponent<WeaponGun>().RoundsRemaining == 0)
+            {
+                Reload();
+                return;
+            }
             weaponGameObjects[currentWeapon].GetComponent<WeaponGun>().Shoot();
+            UpdateUI();
         }
 
         public void SwapWeapons()
@@ -69,7 +75,18 @@ namespace Weapons
 
         public void Reload()
         {
-            Debug.Log("reload");
+            if (_magazines.TryGetValue(weapons[currentWeapon].weaponType, out var magazine))
+            {
+                if (magazine.Carried >= 1)
+                {
+                    weaponGameObjects[currentWeapon].GetComponent<WeaponGun>().Reload(()=>
+                    {
+                        magazine.Carried--;
+                        _magazines[weapons[currentWeapon].weaponType] = magazine;
+                        UpdateUI();
+                    });        
+                };
+            }
         }
 
         public void Throw()
@@ -175,6 +192,10 @@ namespace Weapons
                 UIManager.Instance.CurrentMagazineCount = magazine.Carried;
             }
             else UIManager.Instance.CurrentMagazineCount = 0;
+            
+            //
+            UIManager.Instance.CurrentRoundCount =
+                weaponGameObjects[currentWeapon].GetComponent<IWeapon>().RoundsRemaining;
         }
     }
 

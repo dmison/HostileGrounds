@@ -11,20 +11,17 @@ namespace Player
         [SerializeField] private WeaponsManager weaponsManager;
         
         private InputAction _moveAction;
-        private Vector2 _moveInput;
-
         private InputAction _lookAction;
-        private Vector2 _lookInput;
-
         private InputAction _jumpAction;
-        private bool _jumpInput;
-
         private InputAction _sprintAction;
-        private bool _sprintInput;
-
-        private InputAction _swapAction;
-
         private InputAction _attackAction;
+        private InputAction _swapAction;
+        private InputAction _reloadAction;
+        
+        private Vector2 _moveInput;
+        private Vector2 _lookInput;
+        private bool _jumpInput;
+        private bool _sprintInput;
         private bool _isAttacking;
         
         private void Update()
@@ -60,6 +57,9 @@ namespace Player
             _attackAction = playerControls.FindActionMap("Player").FindAction("Attack");
             _attackAction.performed += _ => _isAttacking = true;
             _attackAction.canceled += _ => _isAttacking = false;
+            
+            _reloadAction = playerControls.FindActionMap("Player").FindAction("Reload");
+            _reloadAction.performed += _ => weaponsManager.Reload();
         }
 
         private void OnEnable()
@@ -68,6 +68,8 @@ namespace Player
             _lookAction.Enable();
             _jumpAction.Enable();
             _sprintAction.Enable();
+            _attackAction.Enable();
+            _reloadAction.Enable();
         }
 
         private void OnDisable()
@@ -76,6 +78,8 @@ namespace Player
             _lookAction.Disable();
             _jumpAction.Disable();
             _sprintAction.Disable();
+            _attackAction.Disable();
+            _reloadAction.Disable();
         }
     }
 }

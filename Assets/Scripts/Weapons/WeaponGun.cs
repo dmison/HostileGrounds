@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Weapons
@@ -7,12 +8,25 @@ namespace Weapons
     {
         private Camera playerCamera;
 
+        [SerializeField] private GameObject weaponGunModel; 
         // shooting
         public bool isShooting; 
         public bool readyToShoot = true;
         bool allowReset = true;
         public float shootingDelay = 2f;
 
+        [SerializeField]
+        private int roundsCapacity = 10;
+        private int roundsRemaining = 0;
+        public int RoundsRemaining => roundsRemaining;
+        
+        [SerializeField] private float reloadTime = 2f;
+        
+        private bool isReloading;
+        public bool IsReloading => isReloading;
+        
+        private DateTime reloadStartTime;
+        
         // Burst gun
         public int bulletsPerBurst = 3;
         public int currentBurstBullets;
@@ -35,64 +49,55 @@ namespace Weapons
         }
 
         public ShootingMode currentShootingMode;
-
+        
         private void Awake()
         {
-            Debug.Log("awake");
             readyToShoot = true;
             currentBurstBullets = bulletsPerBurst;
             playerCamera = Camera.main;
         }
 
-        // Update is called once per frame
-        // void Update()
-        // {
-        //     // if (currentShootingMode == ShootingMode.Auto)
-        //     // {
-        //     //     // Hold down left mouse
-        //     //     isShooting = Input.GetKey(KeyCode.Mouse0);
-        //     // }
-        //     // else if (currentShootingMode == ShootingMode.Burst)
-        //     // {
-        //     //     // Click left mouse
-        //     //     isShooting = Input.GetKeyDown(KeyCode.Mouse0);
-        //     // }
-        //     // else if (currentShootingMode == ShootingMode.Single)
-        //     // {
-        //     //     // Click left mouse
-        //     //     isShooting = Input.GetKeyDown(KeyCode.Mouse0);
-        //     // }
-        //
-        //     // if (readyToShoot && isShooting)
-        //     // {
-        //     //     currentBurstBullets = bulletsPerBurst;
-        //     //     Shoot();
-        //     // }
-        //     // move this code to player inputs later
-        //     // left mouse click
-        //     //if (Input.GetKeyDown(KeyCode.Mouse0))
-        //     //{
-        //     //    Shoot();
-        //     //}
-        // }
-
-        private void Start()
-        {
-            playerCamera = Camera.main;
-        }
-
         public void Shoot()
         {
-            if (readyToShoot )
+            if (readyToShoot && !isReloading)
             {
                 currentBurstBullets = bulletsPerBurst;
                 InternalShoot();
             }
         }
-        
+
+        public void Reload(Action onComplete)
+        {
+            if (isReloading) return;
+            isReloading = true;
+            weaponGunModel.transform.Rotate(new(1,1,0), -30f);
+            StartCoroutine(FinishReload(onComplete));
+        }
+
+        private IEnumerator FinishReload(Action onComplete)
+        {
+            yield return new WaitForSeconds(reloadTime);
+            weaponGunModel.transform.Rotate(new(1,1,0), 30f);
+            roundsRemaining = roundsCapacity;
+            isReloading = false;
+            onComplete?.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            // if we are reloading when swapping weapons then the reload will not complete so
+            // reset the model back to it's original position
+            if (isReloading)
+            {
+                weaponGunModel.transform.Rotate(new(1,1,0), 30f);
+                isReloading = false;
+            }
+            
+        }
+
         private void InternalShoot()
         {
-            
+            roundsRemaining -= 1;
             readyToShoot = false;
 
             Vector3 shootingDirection = CalculateDirectionAndSpread();
@@ -105,9 +110,6 @@ namespace Weapons
 
             // Shoot bullet
             bullet.GetComponent<Rigidbody>().AddForce(bulletSpawn.forward.normalized * bulletVelocity, ForceMode.Impulse);
-
-            // Destroy bullet after time has passed without colliding
-            
 
             // Check if gun has finished shooting
             if (allowReset)
