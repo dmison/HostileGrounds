@@ -60,32 +60,27 @@ namespace Weapons
             Collider[] colliders = Physics.OverlapSphere(transform.position, damageRadius);
             foreach (Collider objectInRange in colliders)
             {
+                Debug.Log("hit " + objectInRange.gameObject.name);
                 Rigidbody rb = objectInRange.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
                     rb.AddExplosionForce(explosionForce, transform.position, damageRadius);
                 }
-
-                // If enemy is in range it takes damage
-                if (objectInRange.gameObject.CompareTag("Enemy"))
+                
+                // If HealthManager is attached then the game object will take damage based on the amount of damageToDeal
+                IHealthManager healthManager = objectInRange.GetComponent<IHealthManager>();
+                if (healthManager != null)
                 {
-                    if (objectInRange.gameObject.GetComponent<IHealthManager>() != null)
-                    {
-                        // If HealthManager is attached then the game object will take damage based on the amount of damageToDeal
-                        objectInRange.gameObject.GetComponent<IHealthManager>().TakeDamage(damageToDeal);
-                        Debug.Log("Dealt damage of " + damageToDeal);
-                    }
-                    else
-                    {
-                        // If HealthManager is not attached then this is explicitly stated in the consol
-                        Debug.Log(objectInRange.gameObject.name + " does not have a Health Manager component");
-                    }
-
-                    print("hit " + objectInRange.gameObject.name);
+                    
+                    healthManager.TakeDamage(damageToDeal);
+                    Debug.Log("Dealt damage of " + damageToDeal);
+                }
+                else
+                {
+                    // If HealthManager is not attached then this is explicitly stated in the console
+                    Debug.Log(objectInRange.gameObject.name + " does not have a Health Manager component");
                 }
             }
-
-
         }
     }
 }

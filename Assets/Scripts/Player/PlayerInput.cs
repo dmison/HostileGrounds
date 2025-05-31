@@ -17,6 +17,7 @@ namespace Player
         private InputAction _attackAction;
         private InputAction _swapAction;
         private InputAction _reloadAction;
+        private InputAction _throwAction;
         
         private Vector2 _moveInput;
         private Vector2 _lookInput;
@@ -60,6 +61,10 @@ namespace Player
             
             _reloadAction = playerControls.FindActionMap("Player").FindAction("Reload");
             _reloadAction.performed += _ => weaponsManager.Reload();
+            
+            _throwAction = playerControls.FindActionMap("Player").FindAction("Throw");
+            _throwAction.performed += _ => weaponsManager.PrepareThrow();
+            _throwAction.canceled += _ => weaponsManager.ReleaseThrow();
         }
 
         private void OnEnable()
@@ -70,6 +75,7 @@ namespace Player
             _sprintAction.Enable();
             _attackAction.Enable();
             _reloadAction.Enable();
+            _throwAction.Enable();
         }
 
         private void OnDisable()
@@ -80,6 +86,7 @@ namespace Player
             _sprintAction.Disable();
             _attackAction.Disable();
             _reloadAction.Disable();
+            _throwAction.Disable();
         }
     }
 }

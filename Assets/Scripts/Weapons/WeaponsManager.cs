@@ -15,6 +15,7 @@ namespace Weapons
         [Header("Weapon Prefabs")]
         [SerializeField] private WeaponGun primaryWeapon;
         [SerializeField] private WeaponGun secondaryWeapon;
+        
         private enum WeaponSelector { Primary, Secondary }
         private Dictionary<WeaponSelector, WeaponGun> weapons = new Dictionary<WeaponSelector, WeaponGun>();
         private Dictionary<WeaponSelector, GameObject> weaponGameObjects = new Dictionary<WeaponSelector, GameObject>();
@@ -22,7 +23,8 @@ namespace Weapons
         
         // maximum number of magazines of each type that can be carried
         [SerializeField] private List<MaxMagazinesPerType> maxMagazines = new List<MaxMagazinesPerType>();
-
+        [SerializeField] private int maxGrenades = 5;
+        
         // magazines carried
         private Dictionary<WeaponType, Magazine> _magazines = new Dictionary<WeaponType, Magazine>();
         [SerializeField] private Transform gunHolder;
@@ -35,7 +37,8 @@ namespace Weapons
         public GameObject throwableSpawn;
         public float forceMultiplier = 0;
         public float forceMultiplierLimit = 4f;
-
+        private DateTime _preppingThrowStartDateTime;
+        private bool _preppingThrow = false;
         // ====================================================================================================
         private void Start()
         {
@@ -57,6 +60,7 @@ namespace Weapons
         
         public void Shoot()
         {
+            if (_preppingThrow) return;
             if (weaponGameObjects[currentWeapon].GetComponent<WeaponGun>().RoundsRemaining == 0)
             {
                 Reload();
@@ -68,6 +72,7 @@ namespace Weapons
 
         public void SwapWeapons()
         {
+            if (_preppingThrow) return;
             currentWeapon = currentWeapon == WeaponSelector.Primary ? WeaponSelector.Secondary : WeaponSelector.Primary;
             HoldCurrentWeapon();
             UpdateUI();
@@ -75,6 +80,7 @@ namespace Weapons
 
         public void Reload()
         {
+            if (_preppingThrow) return;
             if (_magazines.TryGetValue(weapons[currentWeapon].weaponType, out var magazine))
             {
                 if (magazine.Carried >= 1)
@@ -89,40 +95,30 @@ namespace Weapons
             }
         }
 
-        public void Throw()
+        public void PrepareThrow()
         {
-            // Force of the throw
-            if (Input.GetKey(KeyCode.G))
-            {
-                forceMultiplier += Time.deltaTime;
-                if (forceMultiplier > forceMultiplierLimit)
-                {
-                    // Puts a limit on how much force can be used
-                    forceMultiplier = forceMultiplierLimit;
-                }
-            }
-            // Throws grenade when G key is held down
-            if (Input.GetKeyUp(KeyCode.G))
-            {
-                if (grenades > 0)
-                {
-                    ThrowGrenade();
-                    Debug.Log("Throw Grenade");
-                }
-
-                forceMultiplier = 0;
-            }
-          
+            if (_preppingThrow || grenades <= 0) return;
+            _preppingThrow = true;
+            _preppingThrowStartDateTime = DateTime.Now;
         }
 
-        public void ThrowGrenade()
+        public void ReleaseThrow()
+        {
+            float preparedSeconds = (float)(DateTime.Now - _preppingThrowStartDateTime).TotalSeconds;
+            preparedSeconds = Mathf.Clamp(preparedSeconds, 0, forceMultiplierLimit);
+            grenades--;
+            _preppingThrow = false;
+            UpdateUI();
+            Throw(preparedSeconds);
+        }
+
+        public void Throw(float preparedSeconds)
         {
             // Throw Physics
-            GameObject throwable = Instantiate(grenadePrefab, throwableSpawn.transform.position, Camera.main.transform.rotation);
+            GameObject throwable = Instantiate(grenadePrefab, throwableSpawn.transform.position,
+                Camera.main.transform.rotation);
             Rigidbody rb = throwable.GetComponent<Rigidbody>();
-
-            rb.AddForce(Camera.main.transform.forward * (throwForce * forceMultiplier), ForceMode.Impulse);
-
+            rb.AddForce(Camera.main.transform.forward * (throwForce * preparedSeconds), ForceMode.Impulse);
             throwable.GetComponent<ThrowableGrenade>().hasBeenThrown = true;
         }
 
@@ -137,12 +133,17 @@ namespace Weapons
                      // Just an idea ... player.GetComponent<HealthManager>().Heal(healToRestore);
                      break;
                 }
-                case TypeOfPickup.GrenadeAmmo:
                 case TypeOfPickup.PistolAmmo:
                 case TypeOfPickup.SMGAmmo:
                 {
                     AmmoMagazineSo ammo = (AmmoMagazineSo)pickupSo.pickupData;
                     result = AddAmmo(ammo);
+                    break;
+                }
+                case TypeOfPickup.GrenadeAmmo:
+                {
+                    AmmoMagazineSo ammo = (AmmoMagazineSo)pickupSo.pickupData;
+                    result = AddGrenades(1);
                     break;
                 }
 
@@ -157,6 +158,14 @@ namespace Weapons
             return result;
         }
 
+        private bool AddGrenades(int numberOfGrenades)
+        {
+            if (grenades >= maxGrenades) return false;
+            grenades += numberOfGrenades;
+            grenades = Mathf.Clamp(grenades, 0, maxGrenades);
+            UpdateUI();
+            return true;
+        }
         private bool AddAmmo(AmmoMagazineSo ammo)
         {
             // are we already maxed out on this ammo type?
