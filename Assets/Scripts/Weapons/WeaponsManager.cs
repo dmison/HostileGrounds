@@ -4,17 +4,30 @@ using System.Linq;
 using Pickups;
 using Pickups.Ammo;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Weapons
 {
     public class WeaponsManager : MonoBehaviour
     {
+        private Camera playerCamera;
+        
+        [Header("Weapon Prefabs")]
+        [SerializeField] private WeaponGun primaryWeapon;
+        [SerializeField] private WeaponGun secondaryWeapon;
+        private enum WeaponSelector { Primary, Secondary }
+        private Dictionary<WeaponSelector, WeaponGun> weapons = new Dictionary<WeaponSelector, WeaponGun>();
+        private Dictionary<WeaponSelector, GameObject> weaponGameObjects = new Dictionary<WeaponSelector, GameObject>();
+        private WeaponSelector currentWeapon = WeaponSelector.Primary;
+        
         // maximum number of magazines of each type that can be carried
         [SerializeField] private List<MaxMagazinesPerType> maxMagazines = new List<MaxMagazinesPerType>();
 
         // magazines carried
         private Dictionary<WeaponType, Magazine> _magazines = new Dictionary<WeaponType, Magazine>();
 
+        [SerializeField] private Transform gunHolder;
+        // ====================================================================================================
         // Throwables
         public int grenades = 0;
         public float throwForce = 10f;
@@ -23,14 +36,35 @@ namespace Weapons
         public float forceMultiplier = 0;
         public float forceMultiplierLimit = 4f;
 
+        // ====================================================================================================
+        private void Start()
+        {
+            weapons[WeaponSelector.Primary] = primaryWeapon;
+            weapons[WeaponSelector.Secondary] = secondaryWeapon;
+            
+            weaponGameObjects[WeaponSelector.Primary] = Instantiate(primaryWeapon.gameObject, gunHolder);
+            weaponGameObjects[WeaponSelector.Secondary] = Instantiate(secondaryWeapon.gameObject, gunHolder);
+            
+            HoldCurrentWeapon();
+            UpdateUI();
+        }
+
+        private void HoldCurrentWeapon()
+        {
+            weaponGameObjects[WeaponSelector.Primary].SetActive(currentWeapon == WeaponSelector.Primary);
+            weaponGameObjects[WeaponSelector.Secondary].SetActive(currentWeapon == WeaponSelector.Secondary);
+        }
+        
         public void Shoot()
         {
-            Debug.Log("shoot");
+            weaponGameObjects[currentWeapon].GetComponent<WeaponGun>().Shoot();
         }
 
         public void SwapWeapons()
         {
-            Debug.Log("swap weapons");
+            currentWeapon = currentWeapon == WeaponSelector.Primary ? WeaponSelector.Secondary : WeaponSelector.Primary;
+            HoldCurrentWeapon();
+            UpdateUI();
         }
 
         public void Reload()
@@ -126,9 +160,21 @@ namespace Weapons
             magazine.Carried++;
             _magazines[ammo.weaponType] = magazine;
 
-            // Just an idea ... UIManager.instance.UpdateAmmoUI
+            UpdateUI();
 
             return true;
+        }
+
+        private void UpdateUI()
+        {
+            UIManager.Instance.CurrentGrenadeCount = grenades;
+            
+            // get magazines for current gun
+            if (_magazines.TryGetValue(weapons[currentWeapon].weaponType, out var magazine))
+            {
+                UIManager.Instance.CurrentMagazineCount = magazine.Carried;
+            }
+            else UIManager.Instance.CurrentMagazineCount = 0;
         }
     }
 

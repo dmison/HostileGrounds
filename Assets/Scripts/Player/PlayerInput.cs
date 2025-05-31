@@ -22,10 +22,16 @@ namespace Player
         private InputAction _sprintAction;
         private bool _sprintInput;
 
+        private InputAction _swapAction;
+
+        private InputAction _attackAction;
+        private bool _isAttacking;
+        
         private void Update()
         {
             playerMovement.HandleMovement(_moveInput, _jumpInput, _sprintInput);
             playerMovement.HandleRotation(_lookInput);
+            if(_isAttacking)weaponsManager.Shoot();
         }
 
         private void Awake()
@@ -48,6 +54,12 @@ namespace Player
             _sprintAction.performed += _ => _sprintInput = true;
             _sprintAction.canceled += _ => _sprintInput = false;
 
+            _swapAction = playerControls.FindActionMap("Player").FindAction("Swap");
+            _swapAction.performed += _ => { weaponsManager.SwapWeapons(); };
+            
+            _attackAction = playerControls.FindActionMap("Player").FindAction("Attack");
+            _attackAction.performed += _ => _isAttacking = true;
+            _attackAction.canceled += _ => _isAttacking = false;
         }
 
         private void OnEnable()

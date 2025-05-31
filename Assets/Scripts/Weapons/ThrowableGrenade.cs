@@ -1,90 +1,91 @@
-using System.Collections;
-using System.Collections.Generic;
 using Health;
 using UnityEngine;
 
-public class ThrowableGrenade : MonoBehaviour
+namespace Weapons
 {
-    [SerializeField]
-    float delay = 3f;
-    [SerializeField]
-    float damageRadius = 20f;
-    [SerializeField]
-    float explosionForce = 1200f;
-
-    float explosionCountdown;
-
-    bool hasExploded = false;
-    public bool hasBeenThrown = false;
-
-    // Amount of damage grenades do
-    [SerializeField]
-    private int damageToDeal = 50;
-
-    public enum ThrowableType
+    public class ThrowableGrenade : MonoBehaviour
     {
-        Grenade
-    }
+        [SerializeField]
+        float delay = 3f;
+        [SerializeField]
+        float damageRadius = 20f;
+        [SerializeField]
+        float explosionForce = 1200f;
 
-    public ThrowableType throwableType;
+        float explosionCountdown;
 
-    public void Start()
-    {
-        explosionCountdown = delay;
-    }
+        bool hasExploded = false;
+        public bool hasBeenThrown = false;
 
-    private void Update()
-    {
-        // If the grenade has been thrown and the countdown ends, the grenade will explode
-        if(hasBeenThrown)
+        // Amount of damage grenades do
+        [SerializeField]
+        private int damageToDeal = 50;
+
+        public enum ThrowableType
         {
-            explosionCountdown -= Time.deltaTime;
-            if (explosionCountdown <= 0f && !hasExploded)
-            {
-                GrenadeGoBoom();
-                hasExploded = true;
-            }
+            Grenade
         }
-    }
 
-    private void GrenadeGoBoom()
-    {
-        Explode();
-        // destroy the grenade
-        Destroy(gameObject);
-    }
+        public ThrowableType throwableType;
 
-    private void Explode()
-    {
-        // Explodes the grenade
-        Collider[] colliders = Physics.OverlapSphere(transform.position, damageRadius);
-        foreach (Collider objectInRange in colliders)
+        public void Start()
         {
-            Rigidbody rb = objectInRange.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddExplosionForce(explosionForce, transform.position, damageRadius);
-            }
+            explosionCountdown = delay;
+        }
 
-            // If enemy is in range it takes damage
-            if (objectInRange.gameObject.CompareTag("Enemy"))
+        private void Update()
+        {
+            // If the grenade has been thrown and the countdown ends, the grenade will explode
+            if(hasBeenThrown)
             {
-                if (objectInRange.gameObject.GetComponent<IHealthManager>() != null)
+                explosionCountdown -= Time.deltaTime;
+                if (explosionCountdown <= 0f && !hasExploded)
                 {
-                    // If HealthManager is attached then the game object will take damage based on the amount of damageToDeal
-                    objectInRange.gameObject.GetComponent<IHealthManager>().TakeDamage(damageToDeal);
-                    Debug.Log("Dealt damage of " + damageToDeal);
+                    GrenadeGoBoom();
+                    hasExploded = true;
                 }
-                else
-                {
-                    // If HealthManager is not attached then this is explicitly stated in the consol
-                    Debug.Log(objectInRange.gameObject.name + " does not have a Health Manager component");
-                }
-
-                print("hit " + objectInRange.gameObject.name);
             }
         }
 
+        private void GrenadeGoBoom()
+        {
+            Explode();
+            // destroy the grenade
+            Destroy(gameObject);
+        }
 
+        private void Explode()
+        {
+            // Explodes the grenade
+            Collider[] colliders = Physics.OverlapSphere(transform.position, damageRadius);
+            foreach (Collider objectInRange in colliders)
+            {
+                Rigidbody rb = objectInRange.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.AddExplosionForce(explosionForce, transform.position, damageRadius);
+                }
+
+                // If enemy is in range it takes damage
+                if (objectInRange.gameObject.CompareTag("Enemy"))
+                {
+                    if (objectInRange.gameObject.GetComponent<IHealthManager>() != null)
+                    {
+                        // If HealthManager is attached then the game object will take damage based on the amount of damageToDeal
+                        objectInRange.gameObject.GetComponent<IHealthManager>().TakeDamage(damageToDeal);
+                        Debug.Log("Dealt damage of " + damageToDeal);
+                    }
+                    else
+                    {
+                        // If HealthManager is not attached then this is explicitly stated in the consol
+                        Debug.Log(objectInRange.gameObject.name + " does not have a Health Manager component");
+                    }
+
+                    print("hit " + objectInRange.gameObject.name);
+                }
+            }
+
+
+        }
     }
 }

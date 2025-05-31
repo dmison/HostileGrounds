@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IWeapon
+namespace Weapons
 {
-    public void Shoot() {}
+    public interface IWeapon
+    {
+        public void Shoot() {}
+    }
 }
