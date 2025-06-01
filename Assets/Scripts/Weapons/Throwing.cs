@@ -5,7 +5,6 @@ namespace Weapons
     public class Throwing : MonoBehaviour
     {
         [SerializeField] private float throwForce = 10f;
-        [SerializeField] private float forceMultiplier = 0;
         [SerializeField] private float forceMultiplierLimit = 4f;
         [SerializeField] private GameObject throwableSpawn;
         private Camera _camera;
