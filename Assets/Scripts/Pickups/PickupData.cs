@@ -1,11 +1,15 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Pickups
 {
     public abstract class PickupData : ScriptableObject
     {
-        public TypeOfPickup pickupType;
         public GameObject prefab;
+        public GameObject Prefab => prefab;
+
+        public virtual bool Execute(GameObject target, int amount)
+        {
+            return false;
+        }
     }
 }

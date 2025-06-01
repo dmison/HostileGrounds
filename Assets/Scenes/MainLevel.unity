@@ -1179,7 +1179,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pickupData
       value: 
-      objectReference: {fileID: 11400000, guid: 3269b238b3be644af8c8fce66db31c5a,
+      objectReference: {fileID: 11400000, guid: 214774211227e4a999bd5ffee0f6bdb0,
         type: 2}
     - target: {fileID: 3319615389060135794, guid: 67c6d258366584259bcdd51c1ccd2c07,
         type: 3}
@@ -1363,12 +1363,12 @@ PrefabInstance:
         type: 3}
       propertyPath: pickupData
       value: 
-      objectReference: {fileID: 11400000, guid: c793c97286c8749d396f1bb48fc79d38,
+      objectReference: {fileID: 11400000, guid: 10318a5d1372f4645b532c91b36293ac,
         type: 2}
     - target: {fileID: 3319615389060135794, guid: 67c6d258366584259bcdd51c1ccd2c07,
         type: 3}
       propertyPath: pickupAmount
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -3215,7 +3215,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pickupData
       value: 
-      objectReference: {fileID: 11400000, guid: 556ca206ac85c45dcbf5fa9a32bc05a9,
+      objectReference: {fileID: 11400000, guid: aebf2b506f37040b8bbe8d52f3f5c336,
         type: 2}
     - target: {fileID: 3319615389060135794, guid: 67c6d258366584259bcdd51c1ccd2c07,
         type: 3}
@@ -3822,7 +3822,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pickupData
       value: 
-      objectReference: {fileID: 11400000, guid: 34cc0f265462146d4868cf720c9b43d4,
+      objectReference: {fileID: 11400000, guid: cf07c0cc20a1241c29f13d2be3fc4a70,
         type: 2}
     - target: {fileID: 3319615389060135794, guid: 67c6d258366584259bcdd51c1ccd2c07,
         type: 3}

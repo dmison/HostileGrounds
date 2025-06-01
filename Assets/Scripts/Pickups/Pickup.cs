@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using Weapons;
 
@@ -7,7 +6,7 @@ namespace Pickups
 
     public class Pickup : MonoBehaviour
     {
-        [SerializeField] public PickupSo pickupData;
+        [SerializeField] public PickupData pickupData;
         
         [SerializeField] private int pickupAmount;
         [SerializeField] private float respawnDelay = 4f;
@@ -51,8 +50,9 @@ namespace Pickups
         /// <param name="player"></param>
         private bool HandlePlayerPickup(GameObject player)
         {
-            WeaponsManager wm = player.GetComponent<WeaponsManager>();
-            return wm.Pickup(pickupData);
+            // WeaponsManager wm = player.GetComponent<WeaponsManager>();
+            // return wm.Pickup(pickupData);
+            return pickupData.Execute(player, pickupAmount);
         }
 
         private void OnDrawGizmos()

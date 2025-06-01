@@ -20,7 +20,7 @@ namespace Health
         /// Heal handles the functionality of receiving health
         /// </summary>
         /// <param name="healingAmount">The amount of health to gain, this value should be positive</param>
-        void Heal(int healingAmount);
+        bool Heal(int healingAmount);
 
         /// <summary>
         /// Die handles all functionality related to when health reaches or goes below zero, should perform all necessary cleanup.

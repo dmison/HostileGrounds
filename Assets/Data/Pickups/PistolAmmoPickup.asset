@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa5e3663d088c48048e63a05be101075, type: 3}
-  m_Name: GrenadePickup
+  m_Script: {fileID: 11500000, guid: 99b8594a22784f659207a02dfa9f48f7, type: 3}
+  m_Name: PistolAmmoPickup
   m_EditorClassIdentifier: 
-  pickupData: {fileID: 11400000, guid: 55aca93c829484886b629a7114441595, type: 2}
-  pickupAmount: 1
-  respawnDelay: 4
+  prefab: {fileID: 1413466660852507090, guid: 993895dad33b7408f864aad482c27dd9, type: 3}
+  ammoAmount: 5
+  ammoType: 0

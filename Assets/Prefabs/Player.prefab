@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 2651691794650360964}
   - component: {fileID: 5409505713039637058}
   - component: {fileID: 2169701846911696278}
+  - component: {fileID: 6607758377194215269}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -452,13 +453,9 @@ MonoBehaviour:
     max: 2
   maxGrenades: 5
   gunHolder: {fileID: 6139346753700540242}
-  grenades: 0
-  throwForce: 10
+  throwing: {fileID: 0}
   grenadePrefab: {fileID: 126285246961728480, guid: bad30e873a700e046979132e57d078d0,
     type: 3}
-  throwableSpawn: {fileID: 8530775343114144647}
-  forceMultiplier: 0
-  forceMultiplierLimit: 4
 --- !u!114 &2169701846911696278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,6 +469,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+--- !u!114 &6607758377194215269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8881593161593217172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2163a9560c4659843939271b11f36b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwForce: 10
+  forceMultiplier: 0
+  forceMultiplierLimit: 4
+  throwableSpawn: {fileID: 8530775343114144647}
 --- !u!1 &9172683251937069483
 GameObject:
   m_ObjectHideFlags: 0

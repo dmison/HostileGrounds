@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pickups;
-using Pickups.Ammo;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Weapons
 {
@@ -31,17 +28,18 @@ namespace Weapons
         
         // ====================================================================================================
         // Throwables
-        public int grenades = 0;
-        public float throwForce = 10f;
-        public GameObject grenadePrefab;
-        public GameObject throwableSpawn;
-        public float forceMultiplier = 0;
-        public float forceMultiplierLimit = 4f;
+        
+        [SerializeField] private Throwing throwing;
+        [SerializeField] private GameObject grenadePrefab; 
+        private int grenades = 0;
         private DateTime _preppingThrowStartDateTime;
         private bool _preppingThrow = false;
+        
         // ====================================================================================================
         private void Start()
         {
+            throwing = GetComponent<Throwing>();
+            
             weapons[WeaponSelector.Primary] = primaryWeapon;
             weapons[WeaponSelector.Secondary] = secondaryWeapon;
             
@@ -106,60 +104,16 @@ namespace Weapons
         {
             if (!_preppingThrow) return;
             float preparedSeconds = (float)(DateTime.Now - _preppingThrowStartDateTime).TotalSeconds;
-            preparedSeconds = Mathf.Clamp(preparedSeconds, 0, forceMultiplierLimit);
             grenades--;
             _preppingThrow = false;
             UpdateUI();
-            Throw(preparedSeconds);
-        }
-
-        public void Throw(float preparedSeconds)
-        {
-            // Throw Physics
-            GameObject throwable = Instantiate(grenadePrefab, throwableSpawn.transform.position,
-                Camera.main.transform.rotation);
-            Rigidbody rb = throwable.GetComponent<Rigidbody>();
-            rb.AddForce(Camera.main.transform.forward * (throwForce * preparedSeconds), ForceMode.Impulse);
-            throwable.GetComponent<ThrowableGrenade>().hasBeenThrown = true;
-        }
-
-        public bool Pickup(PickupSo pickupSo)
-        {
-            bool result = false;
-
-            switch (pickupSo.PickupType)
+            if (throwing)
             {
-                case TypeOfPickup.Health:
-                {
-                     // Just an idea ... player.GetComponent<HealthManager>().Heal(healToRestore);
-                     break;
-                }
-                case TypeOfPickup.PistolAmmo:
-                case TypeOfPickup.SMGAmmo:
-                {
-                    AmmoMagazineSo ammo = (AmmoMagazineSo)pickupSo.pickupData;
-                    result = AddAmmo(ammo);
-                    break;
-                }
-                case TypeOfPickup.GrenadeAmmo:
-                {
-                    AmmoMagazineSo ammo = (AmmoMagazineSo)pickupSo.pickupData;
-                    result = AddGrenades(1);
-                    break;
-                }
-
-                default:
-                {
-                    Debug.Log("Unknown Pickup type encountered");
-                    break;
-                }
+                throwing.Throw(grenadePrefab, preparedSeconds);
             }
-
-
-            return result;
         }
-
-        private bool AddGrenades(int numberOfGrenades)
+        
+        public bool AddGrenades(int numberOfGrenades)
         {
             if (grenades >= maxGrenades) return false;
             grenades += numberOfGrenades;
@@ -167,25 +121,25 @@ namespace Weapons
             UpdateUI();
             return true;
         }
-        private bool AddAmmo(AmmoMagazineSo ammo)
+        public bool AddAmmo(WeaponType ammoType, int amount)
         {
             // are we already maxed out on this ammo type?
-            if( _magazines.ContainsKey(ammo.weaponType) && maxMagazines.Any(
-                   mm => mm.ammoType == ammo.pickupType &&
-                         mm.max == _magazines[ammo.weaponType].Carried ))
+            if( _magazines.ContainsKey(ammoType) && maxMagazines.Any(
+                   mm => mm.ammoType == ammoType &&
+                         mm.max == _magazines[ammoType].Carried ))
             {
                 return false;
             }
             // try to add the new magazine
             // if will fail silently if there are already mags of that type
-            Magazine mag = new Magazine(ammo.roundsPer);
-            _magazines.TryAdd(ammo.weaponType, mag);
+            Magazine mag = new Magazine();
+            _magazines.TryAdd(ammoType, mag);
 
             // then get the magazine of that type & increment
             // the number carried by one.
-            Magazine magazine = _magazines[ammo.weaponType];
-            magazine.Carried++;
-            _magazines[ammo.weaponType] = magazine;
+            Magazine magazine = _magazines[ammoType];
+            magazine.Carried += amount;
+            _magazines[ammoType] = magazine;
 
             UpdateUI();
 
@@ -211,19 +165,13 @@ namespace Weapons
 
     struct Magazine
     {
-        public Magazine(int rounds)
-        {
-            RoundsPer = rounds;
-            Carried = 0;
-        }
-        public int RoundsPer;
         public int Carried;
     }
 
     [Serializable]
     public class MaxMagazinesPerType
     {
-        [SerializeField] public TypeOfPickup ammoType;
+        [SerializeField] public WeaponType ammoType;
         [SerializeField] public int max;
     }
 }

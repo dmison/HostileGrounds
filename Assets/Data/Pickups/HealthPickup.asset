@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4646bf1b6d5e409c8c60964a0411c3d, type: 3}
-  m_Name: GrenadeSingle
+  m_Script: {fileID: 11500000, guid: cbee2729864d42c1ae789f708ad642b3, type: 3}
+  m_Name: HealthPickup
   m_EditorClassIdentifier: 
-  pickupType: 2
-  prefab: {fileID: 1413466660852507090, guid: 77a7436b4a27a42bb8478c678248546f, type: 3}
-  weaponType: 0
-  roundsPer: 1
+  prefab: {fileID: 1413466660852507090, guid: 7d9c18dc2167a4b4fa676ed732055c03, type: 3}
+  healAmount: 30

@@ -35,8 +35,9 @@ namespace Health
         /// Heal handles the functionality of receiving health
         /// </summary>
         /// <param name="healingAmount">The amount of health to gain, this value should be positive</param>
-        public void Heal(int healingAmount)
+        public bool Heal(int healingAmount)
         {
+            if (currentHealth == maxHealth) return false;
             // Increase the current health by the set healing amount
             currentHealth += healingAmount;
             if (currentHealth > maxHealth)
@@ -44,6 +45,7 @@ namespace Health
                 currentHealth = maxHealth;
             }
             UpdateUI();
+            return true;
         }
 
         /// <summary>

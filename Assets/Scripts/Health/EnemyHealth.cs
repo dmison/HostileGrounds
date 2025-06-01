@@ -60,6 +60,9 @@ namespace Health
         }
 
         /// The Heal method is required due to inheriting from the IHealth interface however the enemy does not heal, although it has the capabilities to do so.
-        public void Heal(int healingAmount) { }
+        public bool Heal(int healingAmount)
+        {
+            return false;
+        }
     }
 }

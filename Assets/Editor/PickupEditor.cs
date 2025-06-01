@@ -10,7 +10,8 @@ namespace Editor
         private void OnSceneGUI()
         {
             Pickup p = (Pickup)target;
-            PickupSo data = p.pickupData;
+            PickupData data = p?.pickupData;
+            if (!data) return;
             Handles.Label(p.transform.position+(Vector3.up/2), data.name);
         }
     }

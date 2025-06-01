@@ -2,6 +2,6 @@ namespace Weapons
 {
     public enum WeaponType
     {
-        Pistol, SMG
+        Pistol, SMG, Grenade
     }
 }
