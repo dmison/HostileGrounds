@@ -8,7 +8,7 @@ namespace Weapons
         [SerializeField]
         float delay = 3f;
         [SerializeField]
-        float damageRadius = 20f;
+        float damageRadius = 3f;
         [SerializeField]
         float explosionForce = 1200f;
 
@@ -20,6 +20,9 @@ namespace Weapons
         // Amount of damage grenades do
         [SerializeField]
         private int damageToDeal = 50;
+
+        [SerializeField] private GameObject explosionParticleFX;
+
 
         public enum ThrowableType
         {
@@ -50,6 +53,7 @@ namespace Weapons
         private void GrenadeGoBoom()
         {
             Explode();
+            Instantiate(explosionParticleFX, transform.position, Quaternion.identity);
             // destroy the grenade
             Destroy(gameObject);
         }
@@ -66,12 +70,12 @@ namespace Weapons
                 {
                     rb.AddExplosionForce(explosionForce, transform.position, damageRadius);
                 }
-                
+
                 // If HealthManager is attached then the game object will take damage based on the amount of damageToDeal
                 IHealthManager healthManager = objectInRange.GetComponent<IHealthManager>();
                 if (healthManager != null)
                 {
-                    
+
                     healthManager.TakeDamage(damageToDeal);
                     Debug.Log("Dealt damage of " + damageToDeal);
                 }

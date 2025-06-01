@@ -104,6 +104,7 @@ namespace Weapons
 
         public void ReleaseThrow()
         {
+            if (!_preppingThrow) return;
             float preparedSeconds = (float)(DateTime.Now - _preppingThrowStartDateTime).TotalSeconds;
             preparedSeconds = Mathf.Clamp(preparedSeconds, 0, forceMultiplierLimit);
             grenades--;
