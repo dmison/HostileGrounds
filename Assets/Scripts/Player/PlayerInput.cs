@@ -7,9 +7,9 @@ namespace Player
     public class PlayerInput : MonoBehaviour
     {
         [SerializeField] private InputActionAsset playerControls;
-        [SerializeField] private PlayerMovement playerMovement; 
+        [SerializeField] private PlayerMovement playerMovement;
         [SerializeField] private WeaponsManager weaponsManager;
-        
+
         private InputAction _moveAction;
         private InputAction _lookAction;
         private InputAction _jumpAction;
@@ -18,13 +18,14 @@ namespace Player
         private InputAction _swapAction;
         private InputAction _reloadAction;
         private InputAction _throwAction;
-        
+        private InputAction _pauseAction;
+
         private Vector2 _moveInput;
         private Vector2 _lookInput;
         private bool _jumpInput;
         private bool _sprintInput;
         private bool _isAttacking;
-        
+
         private void Update()
         {
             playerMovement.HandleMovement(_moveInput, _jumpInput, _sprintInput);
@@ -36,6 +37,7 @@ namespace Player
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
             _moveAction = playerControls.FindActionMap("Player").FindAction("Move");
             _moveAction.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
             _moveAction.canceled += _ => _moveInput = Vector2.zero;
@@ -54,17 +56,20 @@ namespace Player
 
             _swapAction = playerControls.FindActionMap("Player").FindAction("Swap");
             _swapAction.performed += _ => { weaponsManager.SwapWeapons(); };
-            
+
             _attackAction = playerControls.FindActionMap("Player").FindAction("Attack");
             _attackAction.performed += _ => _isAttacking = true;
             _attackAction.canceled += _ => _isAttacking = false;
-            
+
             _reloadAction = playerControls.FindActionMap("Player").FindAction("Reload");
             _reloadAction.performed += _ => weaponsManager.Reload();
-            
+
             _throwAction = playerControls.FindActionMap("Player").FindAction("Throw");
             _throwAction.performed += _ => weaponsManager.PrepareThrow();
             _throwAction.canceled += _ => weaponsManager.ReleaseThrow();
+
+            _pauseAction = playerControls.FindActionMap("Player").FindAction("Pause");
+            _pauseAction.performed += _ => PausedMenuScreen.TogglePause();
         }
 
         private void OnEnable()
@@ -76,6 +81,7 @@ namespace Player
             _attackAction.Enable();
             _reloadAction.Enable();
             _throwAction.Enable();
+            _pauseAction.Enable();
         }
 
         private void OnDisable()
@@ -87,6 +93,7 @@ namespace Player
             _attackAction.Disable();
             _reloadAction.Disable();
             _throwAction.Disable();
+            _pauseAction.Disable();
         }
     }
 }

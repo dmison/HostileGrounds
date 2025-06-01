@@ -4,9 +4,11 @@ using UnityEngine.SceneManagement;
 public class StartGameMenu : MonoBehaviour
 {
     // Starts the game by loading the MainLevel scene
-    public void StartGame()
+    public static void StartGame()
     {
         SceneManager.LoadScene("MainLevel");
+        Debug.Log("Starting Game...");
+        Time.timeScale = 1f;
     }
 
     public static void QuitGame()
@@ -19,7 +21,7 @@ public class StartGameMenu : MonoBehaviour
     }
 
     // Shows the StartMenu scene
-    public void GoToStartScene()
+    public static void GoToStartScene()
     {
         SceneManager.LoadScene("StartMenu");
     }

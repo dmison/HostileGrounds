@@ -33,7 +33,7 @@ namespace Player
 
         public void HandleRotation(Vector2 lookInput)
         {
-            if (PausedMenuScreen.gameIsPaused)
+            if (PausedMenuScreen.gameIsPaused || GameOver.gameIsOver)
                 return;
             var rotation = lookInput.x * mouseXSensitivity;
             transform.Rotate(0, rotation,0);

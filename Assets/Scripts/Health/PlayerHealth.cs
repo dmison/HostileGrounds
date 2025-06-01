@@ -68,8 +68,7 @@ namespace Health
         /// </summary>
         public void Die()
         {
-            Destroy(gameObject);
+            GameOver.TriggerGameOver();
         }
-        
     }
 }
