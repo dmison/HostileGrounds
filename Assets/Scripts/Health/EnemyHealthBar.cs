@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,16 +11,20 @@ namespace Health
         private Slider enemyHealthSlider;
 
         // Reference the camera within the scene
-        [SerializeField]
         private Camera playerCamera;
 
         // TReference to this objects movement
         [SerializeField]
         private Transform target;
 
+        private void Start()
+        {
+            playerCamera = Camera.main;
+        }
+
         /// <summary>
         /// UpdateEnemyHealthSlider handles the value of the health bar by calculating the percentage to provide values for the slider to slide
-        /// if no health bar is assigned then it is stated in the consol
+        /// if no health bar is assigned then it is stated in the console
         /// </summary>
         public void UpdateHealth(float currentHealth, float maxHealth)
         {

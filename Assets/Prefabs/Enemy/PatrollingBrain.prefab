@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b14d2ef928347b49ef99e54314501f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: 0
+  initialState: 1
 --- !u!114 &2601679744580706900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +63,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a0adf9800b44a1a3d624cf204fadee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
   body: {fileID: 0}
   turnSpeed: 3
 --- !u!114 &2603292824401470464
@@ -140,5 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ef15d5f929e4f55b792a97c52123ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 0}
   navMeshAgent: {fileID: 0}
   patrolPath: {fileID: 0}

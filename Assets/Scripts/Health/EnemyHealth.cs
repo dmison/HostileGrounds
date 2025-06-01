@@ -5,8 +5,7 @@ namespace Health
     public class EnemyHealth : MonoBehaviour, IHealthManager
     {
         // Current health of the object
-        [SerializeField]
-        protected int currentHealth;
+        private int currentHealth;
         public int CurrentHealth { get { return currentHealth; } }
 
         // Maximum health that the object can have
@@ -19,12 +18,12 @@ namespace Health
 
         void Start()
         {
+            // Set the current health to the max health
+            currentHealth = maxHealth;
             // The enemy health bar is a child of the enemy
             enemySlider = GetComponentInChildren<EnemyHealthBar>();
             if (enemySlider != null)
             {
-                // Set the current health to the max health
-                currentHealth = maxHealth;
                 enemySlider.UpdateHealth(currentHealth, maxHealth);
             }
             else
@@ -61,15 +60,6 @@ namespace Health
         }
 
         /// The Heal method is required due to inheriting from the IHealth interface however the enemy does not heal, although it has the capabilities to do so.
-        public void Heal(int healingAmount)
-        {
-            // Do nothing because the enemy is not meant to heal, however if the feature was desired the script below is a starting point to implement that feature
-            /// currentHealth += healingAmount;
-            /// enemySlider.UpdateHealth(currentHealth, maxHealth);
-            /// if (currentHealth > maxHealth)
-            /// {
-            ///     currentHealth = maxHealth;
-            /// }
-        }
+        public void Heal(int healingAmount) { }
     }
 }
