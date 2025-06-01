@@ -10,7 +10,7 @@ public class StartGameMenu : MonoBehaviour
         Debug.Log("Starting Game...");
         Time.timeScale = 1f;
     }
-
+    
     public static void QuitGame()
     {
         #if UNITY_EDITOR
@@ -24,5 +24,6 @@ public class StartGameMenu : MonoBehaviour
     public static void GoToStartScene()
     {
         SceneManager.LoadScene("StartMenu");
+        Time.timeScale = 1f;
     }
 }
