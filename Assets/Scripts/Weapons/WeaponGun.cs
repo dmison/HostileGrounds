@@ -8,47 +8,42 @@ namespace Weapons
     {
         private Camera playerCamera;
 
-        [SerializeField] private GameObject weaponGunModel; 
-        // shooting
-        public bool isShooting; 
-        public bool readyToShoot = true;
-        bool allowReset = true;
-        public float shootingDelay = 2f;
+        [SerializeField] private GameObject weaponGunModel;
 
-        [SerializeField]
-        private int roundsCapacity = 10;
-        private int roundsRemaining = 0;
-        public int RoundsRemaining => roundsRemaining;
-        
+        [SerializeField] private WeaponType weaponType;
+        // shooting
+        [SerializeField] private float shootingDelay = 2f;
+        [SerializeField] private int roundsCapacity = 10;
         [SerializeField] private float reloadTime = 2f;
-        
-        private bool isReloading;
-        public bool IsReloading => isReloading;
-        
-        private DateTime reloadStartTime;
+        [SerializeField] private ShootingMode currentShootingMode;
         
         // Burst gun
-        public int bulletsPerBurst = 3;
-        public int currentBurstBullets;
-
+        [SerializeField] private int bulletsPerBurst = 3;
+        [SerializeField] private int currentBurstBullets;
         // spread
-        public float spreadIntensity;
+        [SerializeField] private float spreadIntensity;
 
         // Bullet Properties
-        public GameObject bulletPrefab;
-        public Transform bulletSpawn;
-        public float bulletVelocity = 30;
-        public float bulletPrefabLifeTime = 3f;
+        [SerializeField] private int damageToDeal;
+        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private Transform bulletSpawn;
+        [SerializeField] private float bulletVelocity = 30;
+        [SerializeField] private float bulletLifeTime = 3f;
 
-        public WeaponType weaponType;
-        public enum ShootingMode
+        private bool readyToShoot = true;
+        private bool allowReset = true;
+        private int roundsRemaining = 0;
+        private bool isReloading;
+        private DateTime reloadStartTime;
+        
+        public int RoundsRemaining => roundsRemaining;
+        public bool IsReloading => isReloading;
+        public WeaponType WeaponType => weaponType;
+        
+        private enum ShootingMode
         {
-            Single,
-            Burst,
-            Auto
+            Single, Burst, Auto
         }
-
-        public ShootingMode currentShootingMode;
         
         private void Awake()
         {
@@ -62,7 +57,7 @@ namespace Weapons
             if (readyToShoot && !isReloading)
             {
                 currentBurstBullets = bulletsPerBurst;
-                InternalShoot();
+                ShootBullet();
             }
         }
 
@@ -95,7 +90,7 @@ namespace Weapons
             
         }
 
-        private void InternalShoot()
+        private void ShootBullet()
         {
             roundsRemaining -= 1;
             readyToShoot = false;
@@ -110,6 +105,12 @@ namespace Weapons
 
             // Shoot bullet
             bullet.GetComponent<Rigidbody>().AddForce(bulletSpawn.forward.normalized * bulletVelocity, ForceMode.Impulse);
+            Bullet bs = bullet.GetComponent<Bullet>();
+            if (bs)
+            {
+                bs.LifeTime = bulletLifeTime;
+                bs.DamageToDeal = damageToDeal;
+            }
 
             // Check if gun has finished shooting
             if (allowReset)
@@ -122,7 +123,7 @@ namespace Weapons
             if (currentShootingMode == ShootingMode.Burst && currentBurstBullets > 1)
             {
                 currentBurstBullets--;
-                Invoke(nameof(InternalShoot), shootingDelay);
+                Invoke(nameof(ShootBullet), shootingDelay);
             }
         }
 

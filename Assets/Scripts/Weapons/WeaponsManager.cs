@@ -79,14 +79,14 @@ namespace Weapons
         public void Reload()
         {
             if (_preppingThrow) return;
-            if (_magazines.TryGetValue(weapons[currentWeapon].weaponType, out var magazine))
+            if (_magazines.TryGetValue(weapons[currentWeapon].WeaponType, out var magazine))
             {
                 if (magazine.Carried >= 1)
                 {
                     weaponGameObjects[currentWeapon].GetComponent<WeaponGun>().Reload(()=>
                     {
                         magazine.Carried--;
-                        _magazines[weapons[currentWeapon].weaponType] = magazine;
+                        _magazines[weapons[currentWeapon].WeaponType] = magazine;
                         UpdateUI();
                     });        
                 };
@@ -151,7 +151,7 @@ namespace Weapons
             UIManager.Instance.CurrentGrenadeCount = grenades;
             
             // get magazines for current gun
-            if (_magazines.TryGetValue(weapons[currentWeapon].weaponType, out var magazine))
+            if (_magazines.TryGetValue(weapons[currentWeapon].WeaponType, out var magazine))
             {
                 UIManager.Instance.CurrentMagazineCount = magazine.Carried;
             }

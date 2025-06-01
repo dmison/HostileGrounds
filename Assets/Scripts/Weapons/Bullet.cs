@@ -7,16 +7,18 @@ namespace Weapons
     public class Bullet : MonoBehaviour
     {
         // Amount of damage that is dealt
-        [SerializeField]
         private int damageToDeal;
-
+        private float lifeTime = 5f;
+        public int DamageToDeal { get => damageToDeal; set => damageToDeal = value; }
+        public float LifeTime { get => lifeTime; set => lifeTime = value; }
+        
         private void Start()
         {
-            StartCoroutine(DestroyBullet(10));
+            StartCoroutine(DestroyBullet());
         }
-        private IEnumerator DestroyBullet (float delay)
+        private IEnumerator DestroyBullet ()
         {
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(lifeTime);
             Destroy(gameObject);
         }
 

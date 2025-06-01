@@ -365,21 +365,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponGunModel: {fileID: 763226512588455351}
-  isShooting: 0
-  readyToShoot: 0
+  weaponType: 0
   shootingDelay: 1
   roundsCapacity: 10
   reloadTime: 1
+  currentShootingMode: 0
   bulletsPerBurst: 1
   currentBurstBullets: 1
   spreadIntensity: 0
+  damageToDeal: 20
   bulletPrefab: {fileID: 2419766853954727723, guid: c50824ef33e7d64409fe878948bcc4de,
     type: 3}
   bulletSpawn: {fileID: 7800550691986020307}
   bulletVelocity: 5
-  bulletPrefabLifeTime: 3
-  weaponType: 0
-  currentShootingMode: 0
+  bulletLifeTime: 3
 --- !u!1 &8151538229201136504
 GameObject:
   m_ObjectHideFlags: 0
